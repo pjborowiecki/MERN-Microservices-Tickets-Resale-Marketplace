@@ -7,6 +7,8 @@ import path from 'path';
 
 import config from './config';
 
+import authRouter from './routes/v1/auth.route';
+
 import xss from './middleware/xss.middleware';
 import authLimiter from './middleware/rateLimiter.middleware';
 import errorHandler from './middleware/errorHandler.middleware';
@@ -30,6 +32,8 @@ app.use(
 if (config.node_env === 'production') {
   app.use('/api/v1/auth', authLimiter);
 }
+
+app.use('/api/v1/auth', authRouter);
 
 app.all('*', (req, res) => {
   res.status(404);
