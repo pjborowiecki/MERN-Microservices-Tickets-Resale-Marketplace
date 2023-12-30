@@ -1,6 +1,6 @@
 import { createLogger, format, transports } from 'winston';
 
-import config from '../config';
+import config from '../config/index';
 
 const logger = createLogger({
   level: config.node_env === 'production' ? 'info' : 'debug',
@@ -13,18 +13,18 @@ const logger = createLogger({
       return `${timestamp} [${level.toUpperCase()}] ${message} ${
         stack ? `\n${stack}` : ''
       }`;
-    })
+    }),
   ),
   transports: [
     new transports.Console({
-      stderrLevels: ['error']
+      stderrLevels: ['error'],
     }),
     new transports.File({
       filename: 'logs/error.log',
-      level: 'error'
+      level: 'error',
     }),
-    new transports.File({ filename: 'logs/combined.log' })
-  ]
+    new transports.File({ filename: 'logs/combined.log' }),
+  ],
 });
 
 export default logger;

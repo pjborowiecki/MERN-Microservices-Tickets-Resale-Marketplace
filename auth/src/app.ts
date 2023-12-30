@@ -1,20 +1,20 @@
-import express, { type Express } from 'express';
+import express, { type Application } from 'express';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import cors from 'cors';
 import path from 'path';
 
-import config from './config';
+import config from './config/index';
 
 import authRouter from './routes/v1/auth.route';
 
 import xss from './middleware/xss.middleware';
-import authLimiter from './middleware/rateLimiter.middleware';
-import errorHandler from './middleware/errorHandler.middleware';
-import compressFilter from './lib/compressFilter.lib';
+import authLimiter from './middleware/rate-limiter.middleware';
+import errorHandler from './middleware/error-handler.middleware';
+import compressFilter from './lib/compress-filter.lib';
 
-const app: Express = express();
+const app: Application = express();
 
 app.use(helmet());
 app.use(express.json());
@@ -25,8 +25,8 @@ app.use(compression({ filter: compressFilter }));
 app.use(
   cors({
     origin: String(config.cors.origin).split('|'),
-    credentials: true
-  })
+    credentials: true,
+  }),
 );
 
 if (config.node_env === 'production') {

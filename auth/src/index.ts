@@ -1,11 +1,11 @@
-import config from './config';
-import logger from './middleware/logger.middleware';
 import app from './app';
+import config from './config/index';
+import logger from './middleware/logger.middleware';
 
 const server = app.listen(Number(config.server.port), () => {
   logger.log(
     'info',
-    `Server running at http://localhost:${config.server.port}`
+    `Server running at http://localhost:${config.server.port}`,
   );
 });
 

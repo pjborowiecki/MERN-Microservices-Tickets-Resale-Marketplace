@@ -8,7 +8,7 @@
     "target": "ES2022",
     "sourceMap": true,
     "baseUrl": ".",
-    "outDir": "dist",
+    "outDir": "./dist",
     "sourceRoot": "./src",
     "skipLibCheck": true,
     "emitDecoratorMetadata": true,
@@ -30,7 +30,7 @@
     "noUnusedParameters": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*", "src/scripts/*.ts"],
+  "include": ["./src/**/*", "./src/scripts/*.ts"],
   "exclude": ["node_modules"],
   "typeRoots": ["./src/types", "./node_modules/@types"]
 }

@@ -1,5 +1,5 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
+export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
   clearMocks: true,
@@ -15,14 +15,14 @@ module.exports = {
     'index.ts',
     'app.ts',
     'src/validations',
-    'src/routes'
+    'src/routes',
   ],
   transform: {
     '^.+\\.m?[tj]sx?$': [
       'ts-jest',
       {
-        tsconfig: './tsconfig.test.json'
-      }
-    ]
-  }
+        tsconfig: './tsconfig.test.json',
+      },
+    ],
+  },
 };

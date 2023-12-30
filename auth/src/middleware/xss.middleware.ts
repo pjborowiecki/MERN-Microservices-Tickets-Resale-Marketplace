@@ -1,6 +1,7 @@
 import type { ParamsDictionary } from 'express-serve-static-core';
+
 import type { ParsedQs } from 'qs';
-import type { ExpressMiddleware, SanitizeOptions } from '../types';
+import type { ExpressMiddleware, SanitizeOptions } from 'src/types';
 import { sanitize } from '../lib/sanitize.lib';
 
 const xss = (options?: SanitizeOptions): ExpressMiddleware => {

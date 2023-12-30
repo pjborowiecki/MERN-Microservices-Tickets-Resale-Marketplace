@@ -1,11 +1,12 @@
-node_modules/
-dist/
+node_modules
+dist
+
+logs
+data
+coverage
 
 .env
 
-yarn.lock
-yarn-error.log
+pnpm-lock.yaml
 
-logs/
-data
-coverage/
+.DS_Store
