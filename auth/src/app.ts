@@ -30,6 +30,7 @@ app.use(
 );
 
 if (config.node_env === 'production') {
+  app.set('trustProxy', 1);
   app.use('/api/v1/auth', authLimiter);
 }
 

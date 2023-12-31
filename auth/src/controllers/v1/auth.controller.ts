@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 
-export const handleSignup = async (req: Request, res: Response) => {
+export const signup = async (req: Request, res: Response) => {
   try {
     // TODO: Implement
     console.log(req.body);
@@ -15,7 +15,7 @@ export const handleSignup = async (req: Request, res: Response) => {
   }
 };
 
-export const handleSignin = async (req: Request, res: Response) => {
+export const signin = async (req: Request, res: Response) => {
   try {
     // TODO: Implement
     console.log(req.body);
@@ -30,7 +30,7 @@ export const handleSignin = async (req: Request, res: Response) => {
   }
 };
 
-export const handleSignout = async (req: Request, res: Response) => {
+export const signout = async (req: Request, res: Response) => {
   try {
     // TODO: Implement
     console.log(req.body);
@@ -45,7 +45,7 @@ export const handleSignout = async (req: Request, res: Response) => {
   }
 };
 
-export const handleGetCurrentUser = async (req: Request, res: Response) => {
+export const getCurrentUser = async (req: Request, res: Response) => {
   try {
     // TODO: Implement
     console.log(req.body);
