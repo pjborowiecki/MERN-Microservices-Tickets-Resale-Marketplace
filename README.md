@@ -6,3 +6,4 @@
 
 - `docker build -t <docker_username>/<service_name> .`
 - `skaffold dev`
+- `kubectl get pods`

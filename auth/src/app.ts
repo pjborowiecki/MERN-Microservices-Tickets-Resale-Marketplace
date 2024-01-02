@@ -1,6 +1,10 @@
 import 'express-async-errors';
 
-import express, { type Application } from 'express';
+import express, {
+  type Application,
+  type Request,
+  type Response,
+} from 'express';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
@@ -18,13 +22,13 @@ import { NotFoundError } from './lib/errors';
 
 const app: Application = express();
 
+app.use(helmet());
+app.use(express.json());
+app.use(xss());
+app.use(cookieParser());
+app.use(compression({ filter: compressFilter }));
+app.use(express.urlencoded({ extended: true }));
 app.use(
-  helmet(),
-  express.json(),
-  xss(),
-  cookieParser(),
-  compression({ filter: compressFilter }),
-  express.urlencoded({ extended: true }),
   cors({
     origin: String(config.cors.origin).split('|'),
     credentials: true,
@@ -37,7 +41,8 @@ if (config.node_env === 'production') {
 }
 app.use('/api/v1/auth', authRouter);
 
-app.all('*', async (req, res) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.all('*', async (_req: Request, _res: Response) => {
   throw new NotFoundError();
 });
 
