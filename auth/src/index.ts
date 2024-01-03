@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 import app from './app';
-import config from './config/index';
 import logger from './middleware/logger.middleware';
+import { config } from './config/index';
 
 const startServer = async () => {
   try {

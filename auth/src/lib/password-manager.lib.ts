@@ -3,7 +3,7 @@ import * as util from 'util';
 
 const scryptAsync = util.promisify(crypto.scrypt);
 
-export class Password {
+export class PasswordManager {
   static async hash(password: string): Promise<string> {
     const salt = crypto.randomBytes(8).toString('hex');
     const buffer = (await scryptAsync(password, salt, 64)) as Buffer;

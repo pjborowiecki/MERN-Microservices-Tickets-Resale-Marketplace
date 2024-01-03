@@ -1,6 +1,6 @@
 import { createLogger, format, transports } from 'winston';
 
-import config from '../config/index';
+import { config } from '../config/index';
 
 const logger = createLogger({
   level: config.node_env === 'production' ? 'info' : 'debug',

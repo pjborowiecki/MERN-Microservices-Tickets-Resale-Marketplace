@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import { Password } from '../lib/password.lib';
+import { PasswordManager } from '../lib/password-manager.lib';
 
 interface UserAttributes {
   email: string;
@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema<UserDocument, UserModel>(
 
 userSchema.pre('save', async function (done) {
   if (this.isModified('password')) {
-    const hashedPassword = await Password.hash(this.get('password'));
+    const hashedPassword = await PasswordManager.hash(this.get('password'));
     this.set('password', hashedPassword);
   }
   done();

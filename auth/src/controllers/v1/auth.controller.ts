@@ -1,15 +1,12 @@
 import { type Request, type Response } from 'express';
-import { validationResult } from 'express-validator';
 import * as jsonwebtoken from 'jsonwebtoken';
 
-import config from '../../config/index';
+import { config } from '../../config/index';
 import { User } from '../../models/user';
-import { RequestValidationError, BadRequestError } from '../../lib/errors.lib';
+import { PasswordManager } from '../../lib/password-manager.lib';
+import { BadRequestError } from '../../lib/errors.lib';
 
 export const signup = async (request: Request, response: Response) => {
-  const errors = validationResult(request);
-  if (!errors.isEmpty()) throw new RequestValidationError(errors.array());
-
   const { email, password } = request.body;
 
   const existingUser = await User.findOne({ email });
@@ -37,47 +34,38 @@ export const signup = async (request: Request, response: Response) => {
   response.status(201).send(user);
 };
 
-export const signin = async (req: Request, res: Response) => {
-  try {
-    // TODO: Implement
-    console.log(req.body);
+export const signin = async (request: Request, response: Response) => {
+  const { email, password } = request.body;
 
-    res.status(200).send('handleSignin');
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      return res.status(500).json({ error: error.message });
-    } else {
-      return res.status(500).json({ error: 'An unknown error occurred.' });
-    }
-  }
+  const existingUser = await User.findOne({ email });
+  if (!existingUser) throw new BadRequestError('Invalid email or password');
+
+  const passwordsMatch = await PasswordManager.compare(
+    existingUser.password,
+    password,
+  );
+
+  if (!passwordsMatch) throw new BadRequestError('Inavlid email or password');
+
+  const jwt = jsonwebtoken.sign(
+    {
+      id: existingUser.id,
+      email: existingUser.email,
+    },
+    config.auth.jwt_sign_key,
+  );
+
+  request.session = {
+    jwt: jwt,
+  };
+
+  response.status(200).send(existingUser);
 };
 
 export const signout = async (req: Request, res: Response) => {
-  try {
-    // TODO: Implement
-    console.log(req.body);
-    console.log(res);
-    res.status(200).send('handleSignout');
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      return res.status(500).json({ error: error.message });
-    } else {
-      return res.status(500).json({ error: 'An unknown error occurred.' });
-    }
-  }
+  // TODO
 };
 
 export const getCurrentUser = async (req: Request, res: Response) => {
-  try {
-    // TODO: Implement
-    console.log(req.body);
-    console.log(res);
-    res.status(200).send('getCurrentUser');
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      return res.status(500).json({ error: error.message });
-    } else {
-      return res.status(500).json({ error: 'An unknown error occurred.' });
-    }
-  }
+  // TODO
 };

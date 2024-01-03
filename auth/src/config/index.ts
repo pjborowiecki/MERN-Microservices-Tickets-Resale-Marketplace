@@ -27,7 +27,7 @@ if (error) {
   );
 }
 
-const config = {
+export const config = {
   node_env: validatedEnv.NODE_ENV,
   server: {
     port: validatedEnv.PORT,
@@ -43,5 +43,3 @@ const config = {
     jwt_sign_key: validatedEnv.JWT_SIGN_KEY,
   },
 } as const;
-
-export default config;

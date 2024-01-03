@@ -11,7 +11,7 @@ import cookieSession from 'cookie-session';
 import helmet from 'helmet';
 import cors from 'cors';
 
-import config from './config/index';
+import { config } from './config/index';
 
 import authRouter from './routes/v1/auth.route';
 
