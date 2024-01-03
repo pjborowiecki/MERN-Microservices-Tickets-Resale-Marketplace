@@ -63,6 +63,11 @@ export const signIn = async (request: Request, response: Response) => {
 };
 
 export const signOut = async (request: Request, response: Response) => {
+  request.session = null;
+  response.status(200).send({});
+};
+
+export const getCurrentUser = async (request: Request, response: Response) => {
   if (!request.session?.jwt) return response.send({ currentUser: null });
 
   try {
@@ -71,8 +76,4 @@ export const signOut = async (request: Request, response: Response) => {
   } catch (error) {
     response.send({ currentUser: null });
   }
-};
-
-export const getCurrentUser = async (request: Request, response: Response) => {
-  // TODO
 };
