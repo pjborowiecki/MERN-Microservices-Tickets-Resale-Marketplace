@@ -6,7 +6,7 @@ import logger from './middleware/logger.middleware';
 
 const startServer = async () => {
   try {
-    await mongoose.connect('mongodb://auth-mongodb-service:27017/auth');
+    await mongoose.connect(config.database.url);
     logger.info('Connected to MongoDB');
     startHttpServer();
   } catch (error) {

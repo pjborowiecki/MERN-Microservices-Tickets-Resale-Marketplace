@@ -1,14 +1,16 @@
 import { type Request, type Response } from 'express';
 import { validationResult } from 'express-validator';
+import * as jsonwebtoken from 'jsonwebtoken';
 
+import config from '../../config/index';
 import { User } from '../../models/user';
 import { RequestValidationError, BadRequestError } from '../../lib/errors.lib';
 
-export const signup = async (req: Request, res: Response) => {
-  const errors = validationResult(req);
+export const signup = async (request: Request, response: Response) => {
+  const errors = validationResult(request);
   if (!errors.isEmpty()) throw new RequestValidationError(errors.array());
 
-  const { email, password } = req.body;
+  const { email, password } = request.body;
 
   const existingUser = await User.findOne({ email });
   if (existingUser) throw new BadRequestError('Email already taken');
@@ -20,7 +22,19 @@ export const signup = async (req: Request, res: Response) => {
 
   await user.save();
 
-  res.status(201).send(user);
+  const jwt = jsonwebtoken.sign(
+    {
+      id: user.id,
+      email: user.email,
+    },
+    config.auth.jwt_sign_key,
+  );
+
+  request.session = {
+    jwt: jwt,
+  };
+
+  response.status(201).send(user);
 };
 
 export const signin = async (req: Request, res: Response) => {

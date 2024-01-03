@@ -7,6 +7,7 @@ import express, {
 } from 'express';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
+import cookieSession from 'cookie-session';
 import helmet from 'helmet';
 import cors from 'cors';
 
@@ -22,8 +23,16 @@ import { NotFoundError } from './lib/errors.lib';
 
 const app: Application = express();
 
+app.set('trustProxy', 1);
+
 app.use(helmet());
 app.use(express.json());
+app.use(
+  cookieSession({
+    signed: false,
+    secure: true,
+  }),
+);
 app.use(xss());
 app.use(cookieParser());
 app.use(compression({ filter: compressFilter }));
@@ -36,9 +45,9 @@ app.use(
 );
 
 if (config.node_env === 'production') {
-  app.set('trustProxy', 1);
   app.use('/api/v1/auth', authLimiter);
 }
+
 app.use('/api/v1/auth', authRouter);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

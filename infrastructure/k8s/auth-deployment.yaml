@@ -15,6 +15,12 @@ spec:
       containers:
         - name: auth
           image: pjborowiecki/auth
+          env:
+            - name: JWT_SIGN_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_SIGN_KEY
 ---
 apiVersion: v1
 kind: Service

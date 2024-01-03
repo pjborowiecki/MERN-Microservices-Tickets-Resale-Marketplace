@@ -12,6 +12,7 @@ const envSchema = Joi.object().keys({
   SERVER_URL: Joi.string().required(),
   CORS_ORIGIN: Joi.string().required(),
   DATABASE_URL: Joi.string().required(),
+  JWT_SIGN_KEY: Joi.string().required(),
 });
 
 const { value: validatedEnv, error } = envSchema
@@ -34,6 +35,12 @@ const config = {
   },
   cors: {
     origin: validatedEnv.CORS_ORIGIN,
+  },
+  database: {
+    url: validatedEnv.DATABASE_URL,
+  },
+  auth: {
+    jwt_sign_key: validatedEnv.JWT_SIGN_KEY,
   },
 } as const;
 
