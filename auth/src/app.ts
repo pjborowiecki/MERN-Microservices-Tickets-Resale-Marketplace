@@ -18,7 +18,7 @@ import xss from './middleware/xss.middleware';
 import authLimiter from './middleware/rate-limiter.middleware';
 import errorHandler from './middleware/error-handler.middleware';
 import compressFilter from './lib/compress-filter.lib';
-import { NotFoundError } from './lib/errors';
+import { NotFoundError } from './lib/errors.lib';
 
 const app: Application = express();
 

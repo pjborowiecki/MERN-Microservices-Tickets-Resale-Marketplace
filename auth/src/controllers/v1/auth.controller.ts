@@ -1,25 +1,32 @@
 import { type Request, type Response } from 'express';
 import { validationResult } from 'express-validator';
 
-import {
-  RequestValidationError,
-  DatabaseConnectionError,
-} from '../../lib/errors';
+import { User } from '../../models/user';
+import { RequestValidationError, BadRequestError } from '../../lib/errors.lib';
 
 export const signup = async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) throw new RequestValidationError(errors.array());
 
-  console.log('Creating a user...');
-  console.log(res);
-  throw new DatabaseConnectionError();
+  const { email, password } = req.body;
+
+  const existingUser = await User.findOne({ email });
+  if (existingUser) throw new BadRequestError('Email already taken');
+
+  const user = User.build({
+    email,
+    password,
+  });
+
+  await user.save();
+
+  res.status(201).send(user);
 };
 
 export const signin = async (req: Request, res: Response) => {
   try {
     // TODO: Implement
     console.log(req.body);
-    if (!res) console.log('Shit, no res');
 
     res.status(200).send('handleSignin');
   } catch (error: unknown) {
