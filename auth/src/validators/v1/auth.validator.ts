@@ -1,6 +1,6 @@
 import { body, ValidationChain } from 'express-validator';
 
-export const signup: ValidationChain[] = [
+export const signUp: ValidationChain[] = [
   body('email').isEmail().withMessage('Invalid email address').notEmpty(),
   body('password')
     .isString()
@@ -9,7 +9,7 @@ export const signup: ValidationChain[] = [
     .withMessage('Password must be between 4 and 20 characters'),
 ];
 
-export const signin: ValidationChain[] = [
+export const signIn: ValidationChain[] = [
   body('email').isEmail().withMessage('Invalid email address').notEmpty(),
   body('password')
     .isString()

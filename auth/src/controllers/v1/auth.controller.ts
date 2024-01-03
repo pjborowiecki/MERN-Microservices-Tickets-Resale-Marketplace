@@ -1,12 +1,12 @@
 import { type Request, type Response } from 'express';
-import * as jsonwebtoken from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 import { config } from '../../config/index';
 import { User } from '../../models/user';
 import { PasswordManager } from '../../lib/password-manager.lib';
 import { BadRequestError } from '../../lib/errors.lib';
 
-export const signup = async (request: Request, response: Response) => {
+export const signUp = async (request: Request, response: Response) => {
   const { email, password } = request.body;
 
   const existingUser = await User.findOne({ email });
@@ -19,7 +19,7 @@ export const signup = async (request: Request, response: Response) => {
 
   await user.save();
 
-  const jwt = jsonwebtoken.sign(
+  const userJWT = jwt.sign(
     {
       id: user.id,
       email: user.email,
@@ -28,13 +28,13 @@ export const signup = async (request: Request, response: Response) => {
   );
 
   request.session = {
-    jwt: jwt,
+    jwt: userJWT,
   };
 
   response.status(201).send(user);
 };
 
-export const signin = async (request: Request, response: Response) => {
+export const signIn = async (request: Request, response: Response) => {
   const { email, password } = request.body;
 
   const existingUser = await User.findOne({ email });
@@ -47,7 +47,7 @@ export const signin = async (request: Request, response: Response) => {
 
   if (!passwordsMatch) throw new BadRequestError('Inavlid email or password');
 
-  const jwt = jsonwebtoken.sign(
+  const userJWT = jwt.sign(
     {
       id: existingUser.id,
       email: existingUser.email,
@@ -56,16 +56,23 @@ export const signin = async (request: Request, response: Response) => {
   );
 
   request.session = {
-    jwt: jwt,
+    jwt: userJWT,
   };
 
   response.status(200).send(existingUser);
 };
 
-export const signout = async (req: Request, res: Response) => {
-  // TODO
+export const signOut = async (request: Request, response: Response) => {
+  if (!request.session?.jwt) return response.send({ currentUser: null });
+
+  try {
+    const payload = jwt.verify(request.session.jwt, config.auth.jwt_sign_key);
+    response.send({ currentUser: payload });
+  } catch (error) {
+    response.send({ currentUser: null });
+  }
 };
 
-export const getCurrentUser = async (req: Request, res: Response) => {
+export const getCurrentUser = async (request: Request, response: Response) => {
   // TODO
 };
