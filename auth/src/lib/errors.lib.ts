@@ -64,6 +64,23 @@ export class DatabaseConnectionError extends CustomError {
   }
 }
 
+export class NotAuthorizedError extends CustomError {
+  statusCode = 401;
+
+  constructor() {
+    super('Not authorized');
+    Object.setPrototypeOf(this, NotAuthorizedError.prototype);
+  }
+
+  override serializeErrors() {
+    return [
+      {
+        message: 'Not authorized',
+      },
+    ];
+  }
+}
+
 export class NotFoundError extends CustomError {
   statusCode = 404;
 

@@ -2,6 +2,14 @@ import type { NextFunction, Request, Response } from 'express';
 import type { DeepPartial } from 'utility-types';
 import type { IFilterXSSOptions } from 'xss';
 
+declare global {
+  namespace Express {
+    interface Request {
+      currentUser?: UserPayload;
+    }
+  }
+}
+
 export type TypedRequest<
   ReqBody = Record<string, unknown>,
   QueryString = Record<string, unknown>,

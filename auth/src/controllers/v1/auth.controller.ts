@@ -68,12 +68,5 @@ export const signOut = async (request: Request, response: Response) => {
 };
 
 export const getCurrentUser = async (request: Request, response: Response) => {
-  if (!request.session?.jwt) return response.send({ currentUser: null });
-
-  try {
-    const payload = jwt.verify(request.session.jwt, config.auth.jwt_sign_key);
-    response.send({ currentUser: payload });
-  } catch (error) {
-    response.send({ currentUser: null });
-  }
+  response.send({ currentUser: request.currentUser || null });
 };

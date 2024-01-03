@@ -8,7 +8,7 @@ export const errorHandler = (
   _request: Request,
   response: Response,
   next: NextFunction,
-) => {
+): void | Response => {
   logger.error(error);
 
   if (error instanceof CustomError) {

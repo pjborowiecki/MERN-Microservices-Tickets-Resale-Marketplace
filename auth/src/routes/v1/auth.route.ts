@@ -3,6 +3,7 @@ import express, { type Router } from 'express';
 import * as authController from '../../controllers/v1/auth.controller';
 import * as authValidator from '../../validators/v1/auth.validator';
 import { requestValidator } from '../../middleware/request-validator.middleware';
+import { currentUserVerifier } from '../../middleware/current-user-verifier.middleware';
 
 const authRouter: Router = express.Router();
 
@@ -16,6 +17,8 @@ authRouter
 
 authRouter.route('/signout').post(authController.signOut);
 
-authRouter.route('/currentuser').get(authController.getCurrentUser);
+authRouter
+  .route('/currentuser')
+  .get(currentUserVerifier, authController.getCurrentUser);
 
 export default authRouter;
