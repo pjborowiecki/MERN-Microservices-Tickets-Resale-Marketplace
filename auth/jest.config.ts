@@ -6,6 +6,7 @@ export default {
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageReporters: ['json', 'html', 'text'],
+  setupFilesAfterEnv: ['./src/test/setup.ts'],
   modulePathIgnorePatterns: [
     './dist',
     './coverage',
@@ -15,7 +16,6 @@ export default {
     'index.ts',
     'app.ts',
     'src/validations',
-    'src/routes',
   ],
   transform: {
     '^.+\\.m?[tj]sx?$': [

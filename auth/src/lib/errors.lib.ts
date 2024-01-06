@@ -29,7 +29,7 @@ export class BadRequestError extends CustomError {
 }
 
 export class RequestValidationError extends CustomError {
-  statusCode = 500;
+  statusCode = 400;
 
   constructor(public errors: ValidationError[]) {
     super('Invalid request parameters');
