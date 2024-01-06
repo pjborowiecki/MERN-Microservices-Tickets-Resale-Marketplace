@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction } from 'express';
 
 import { NotAuthorizedError } from '../lib/errors.lib';
 
-export const authGuard = (
+const authGuard = (
   request: Request,
   _response: Response,
   next: NextFunction,
@@ -10,3 +10,5 @@ export const authGuard = (
   if (!request.currentUser) throw new NotAuthorizedError();
   next();
 };
+
+export { authGuard };

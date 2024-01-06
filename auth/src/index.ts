@@ -1,30 +1,29 @@
 import mongoose from 'mongoose';
 
-import app from './app';
-import logger from './middleware/logger.middleware';
+import { app } from './app';
 import { config } from './config/index';
 
 const startServer = async () => {
   try {
     await mongoose.connect(config.database.url);
-    logger.info('Connected to MongoDB');
+    console.log('Connected to MongoDB');
     startHttpServer();
   } catch (error) {
-    logger.error('Error connecting to MongoDB:', error);
+    console.error('Error connecting to MongoDB:', error);
     process.exit(1);
   }
 };
 
 const startHttpServer = () => {
   const server = app.listen(Number(config.server.port), () => {
-    logger.info(`Server running at http://localhost:${config.server.port}`);
+    console.log(`Server running at http://localhost:${config.server.port}`);
   });
 
   process.on('SIGTERM', () => {
-    logger.info('SIGTERM signal received');
-    logger.info('Closing HTTP server');
+    console.log('SIGTERM signal received');
+    console.log('Closing HTTP server');
     server.close((error) => {
-      logger.info('HTTP server closed');
+      console.log('HTTP server closed');
       process.exit(error ? 1 : 0);
     });
   });

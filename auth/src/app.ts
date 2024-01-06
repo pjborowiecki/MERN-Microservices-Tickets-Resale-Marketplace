@@ -13,12 +13,12 @@ import cors from 'cors';
 
 import { config } from './config/index';
 
-import authRouter from './routes/v1/auth.route';
+import { authRouter } from './routes/v1/auth.route';
 
-import xss from './middleware/xss.middleware';
-import authLimiter from './middleware/rate-limiter.middleware';
-import errorHandler from './middleware/error-handler.middleware';
-import compressFilter from './lib/compress-filter.lib';
+import { xss } from './middleware/xss.middleware';
+import { rateLimiter } from './middleware/rate-limiter.middleware';
+import { errorHandler } from './middleware/error-handler.middleware';
+import { compressionFilter } from './lib/compression-filter.lib';
 import { NotFoundError } from './lib/errors.lib';
 
 const app: Application = express();
@@ -35,7 +35,7 @@ app.use(
 );
 app.use(xss());
 app.use(cookieParser());
-app.use(compression({ filter: compressFilter }));
+app.use(compression({ filter: compressionFilter }));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
@@ -45,7 +45,7 @@ app.use(
 );
 
 if (config.node_env === 'production') {
-  app.use('/api/v1/auth', authLimiter);
+  app.use('/api/v1/auth', rateLimiter);
 }
 
 app.use('/api/v1/auth', authRouter);
@@ -57,4 +57,4 @@ app.all('*', async (_req: Request, _res: Response) => {
 
 app.use(errorHandler);
 
-export default app;
+export { app };

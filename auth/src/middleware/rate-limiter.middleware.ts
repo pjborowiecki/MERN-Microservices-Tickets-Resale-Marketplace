@@ -6,4 +6,4 @@ const rateLimiter = rateLimit({
   skipSuccessfulRequests: true,
 });
 
-export default rateLimiter;
+export { rateLimiter };

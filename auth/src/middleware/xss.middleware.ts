@@ -14,4 +14,4 @@ const xss = (options?: SanitizeOptions): ExpressMiddleware => {
   };
 };
 
-export default xss;
+export { xss };

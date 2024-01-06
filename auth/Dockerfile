@@ -5,8 +5,7 @@ COPY package.json .
 
 RUN apk add --no-cache git
 RUN npm install -g pnpm
-
-RUN pnpm install
+RUN pnpm install --omit=dev
 
 COPY . .
 

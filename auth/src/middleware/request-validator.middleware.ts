@@ -3,7 +3,7 @@ import { validationResult } from 'express-validator';
 
 import { RequestValidationError } from '../lib/errors.lib';
 
-export const requestValidator = (
+const requestValidator = (
   request: Request,
   _response: Response,
   next: NextFunction,
@@ -12,3 +12,5 @@ export const requestValidator = (
   if (!errors.isEmpty()) throw new RequestValidationError(errors.array());
   next();
 };
+
+export { requestValidator };

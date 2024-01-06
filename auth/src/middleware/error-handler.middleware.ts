@@ -1,16 +1,13 @@
 import type { NextFunction, Request, Response } from 'express';
 
 import { CustomError } from '../lib/errors.lib';
-import logger from '../middleware/logger.middleware';
 
-export const errorHandler = (
+const errorHandler = (
   error: Error,
   _request: Request,
   response: Response,
   next: NextFunction,
 ): void | Response => {
-  logger.error(error);
-
   if (error instanceof CustomError) {
     return response
       .status(error.statusCode)
@@ -24,4 +21,4 @@ export const errorHandler = (
   next();
 };
 
-export default errorHandler;
+export { errorHandler };

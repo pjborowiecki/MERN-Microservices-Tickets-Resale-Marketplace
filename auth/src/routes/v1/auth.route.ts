@@ -21,4 +21,4 @@ authRouter
   .route('/currentuser')
   .get(currentUserVerifier, authController.getCurrentUser);
 
-export default authRouter;
+export { authRouter };

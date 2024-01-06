@@ -8,7 +8,7 @@ interface UserPayload {
   email: string;
 }
 
-export const currentUserVerifier = (
+const currentUserVerifier = (
   request: Request,
   _response: Response,
   next: NextFunction,
@@ -27,3 +27,5 @@ export const currentUserVerifier = (
 
   next();
 };
+
+export { currentUserVerifier };
