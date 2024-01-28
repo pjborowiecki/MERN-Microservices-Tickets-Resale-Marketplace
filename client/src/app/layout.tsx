@@ -4,6 +4,9 @@ import * as React from "react"
 import type { Metadata } from "next"
 
 import { fontInter } from "@/config/fonts"
+import { ThemeProvider } from "@/providers/theme-provider"
+import { Toaster } from "@/components/ui/toaster"
+import { TailwindIndicator } from "@/components/tailwind-indicator"
 
 export const metadata: Metadata = {
   title: "TicketThing",
@@ -17,7 +20,17 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html lang="en">
-      <body className={fontInter.className}>{children}</body>
+      <body className={fontInter.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          <Toaster />
+        </ThemeProvider>
+      </body>
     </html>
   )
 }
